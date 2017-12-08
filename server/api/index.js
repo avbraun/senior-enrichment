@@ -51,22 +51,36 @@ apiRouter.get('/students/:studentId', (req, res, next) => {
 })
 
 // CREATES NEW CAMPUS
-apiRouter.post('/campuses', (req, res, next) => {
+apiRouter.post('/campuses/new', (req, res, next) => {
 	Campus.create(req.body)
-		.then(newCampus => {
-			console.log(newCampus);
-		})
+		.then(newCampus =>
+			res.json(newCampus)
+		)
 		.catch(next);
 })
 
 // CREATES NEW STUDENT
-apiRouter.post('/students', (req, res, next) => {
+apiRouter.post('/students/new', (req, res, next) => {
 	Student.create(req.body)
-		.then(newStudent => {
-			console.log(newStudent);
+		.then(newStudent =>
+			res.json(newStudent)
+		)
+		.catch(next);
+})
+
+// DELETES STUDENT
+apiRouter.delete('/students', (req, res, next) => {
+	console.log('REQ BODY XXXXXX: ', req.body)
+	Student.destroy({
+		where: { id: req.body }
+	})
+		.then(() => {
+			res.status(204).send();
 		})
 		.catch(next);
 })
+
+// DELETES CAMPUS
 
 
 // You can put all routes in this file; HOWEVER, this file should almost be like a table of contents for the routers you create

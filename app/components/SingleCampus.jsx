@@ -13,13 +13,31 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export function SingleCampus(props) {
+  let campusIdNum = parseInt(props.match.params.campusId, 10);
   return (
-    <div>
-      <h2>This is a Single Campus!</h2>
-      <h2>{props.match.params.campusId}</h2>
-    </div>
-  )
+    <table>
+    <thead>
+    <tr>
+    <th>Name</th>
+    <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    {
+      props.students.filter(student => student.campusId === campusIdNum).map(filteredStudent => (
+        <NavLink to={`/students/${filteredStudent.id}`}>
+        <tr>
+        <td>{filteredStudent.fullName}</td>
+        <td>{filteredStudent.email}</td>
+        </tr>
+        </NavLink>
+      ))
+    }
+    </tbody>
+    </table>
+  );
 }
+
 
 const SingleCampusContainer = connect(mapStateToProps, mapDispatchToProps)(SingleCampus);
 

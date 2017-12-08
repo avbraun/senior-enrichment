@@ -13,7 +13,9 @@ let Student = db.define('student', {
 	email: {
 		type: Sequelize.STRING,
 		allowNull: false,
-		isEmail: true
+		validate: {
+			isEmail: true
+		}
 	},
 	gpa: {
 		type: Sequelize.DECIMAL

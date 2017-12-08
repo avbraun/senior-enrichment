@@ -17,11 +17,8 @@ const mapDispatchToProps = (dispatch) => {
 export function Campuses(props) {
   return (
     <div>
-      <h2>This is Campuses!</h2>
-      <Switch>
-      <Route exact path ="/campuses" component={AllCampuses} />
-      <Route path ="/campuses/:campusId" component={SingleCampus} />
-      </Switch>
+      <h2>Check out our campuses...</h2>
+      <AllCampuses />
       </div>
   )
 }

@@ -16,14 +16,14 @@ const mapDispatchToProps = (dispatch) => {
 export function AllCampuses(props) {
   return (
     <div>
-      <h2>These are All Campuses!</h2>
+      <h2>(Alyssa, these are All Campuses!)</h2>
       <ul>
         {
           props.campuses.map(campus => {
             return (
               <div>
                 <li key={campus.id}>{campus.name}: {campus.description}</li>
-                <Link to={`/students/campus/${campus.id}`}>
+                <Link to={`/campuses/${campus.id}`}>
                   <img key={`image${campus.id}`} src={campus.imgUrl} />
                 </Link>
               </div>
