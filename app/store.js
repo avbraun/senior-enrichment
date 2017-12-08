@@ -11,8 +11,12 @@ const initialState =  {
     firstName: '',
     lastName: '',
     email: ''
+  },
+  newCampus: {
+    name: '',
+    imageUrl: '',
+    description: ''
   }
-  // studentToDelete: {}
 }
 
 // action types:
@@ -23,7 +27,11 @@ const WRITE_NEW_STUDENT_LASTNAME = 'WRITE_NEW_STUDENT_LASTNAME';
 const WRITE_NEW_STUDENT_EMAIL = 'WRITE_NEW_STUDENT_EMAIL';
 const ADD_STUDENT = 'ADD_STUDENT';
 const REMOVE_STUDENT = 'REMOVE_STUDENT';
-// const SELECT_STUDENT_TO_DELETE: 'SELECT_STUDENT_TO_DELETE';
+const WRITE_NEW_CAMPUS_NAME = 'WRITE_NEW_CAMPUS_NAME';
+const WRITE_NEW_CAMPUS_DESCRIPTION = 'WRITE_NEW_CAMPUS_DESCRIPTION';
+const WRITE_NEW_CAMPUS_IMAGEURL = 'WRITE_NEW_CAMPUS_IMAGEURL';
+const ADD_CAMPUS = 'ADD_CAMPUS';
+
 
 // action creators:
 export function getStudents (students) {
@@ -54,9 +62,21 @@ export function removeStudent (studentId) {
   return { type: REMOVE_STUDENT, studentId }
 }
 
-// export function selectStudentToDelete (student) {
-//   return { type: ADD_STUDENT, student }
-// }
+export function writeNewCampusName (campusName) {
+  return { type: WRITE_NEW_CAMPUS_NAME, campusName}
+}
+
+export function writeNewCampusDescription (campusDescription) {
+  return { type: WRITE_NEW_CAMPUS_DESCRIPTION, campusDescription }
+}
+
+export function writeNewCampusImageUrl (campusImage) {
+  return { type: WRITE_NEW_CAMPUS_IMAGEURL, campusImage }
+}
+
+export function addCampus (campus) {
+  return { type: ADD_CAMPUS, campus }
+}
 
 // thunk creators:
 
@@ -97,12 +117,24 @@ export function postNewStudent () {
 export function deleteStudent (studentId) {
 console.log('THUNK CREATOR - STUDENTID: ', studentId)
   return function thunk (dispatch) {
-    return axios.delete('/api/students', {id: studentId})
+    return axios.delete(`/api/students/${studentId}`, {id: studentId})
       .then(() => {
         console.log('THUNK - STUDENTID: ', studentId)
-        dispatch(removeStudent(studentId));
+        dispatch(fetchStudents());
       });
   };
+}
+
+export function postNewCampus () {
+
+  return function thunk (dispatch, getState) {
+    let campus = getState().newCampus;
+    return axios.post('/api/campuses/new', campus)
+      .then(res => res.data)
+      .then(postedCampus => {
+        dispatch(addCampus(postedCampus));
+      })
+  }
 }
 
 // reducer:
@@ -127,8 +159,35 @@ export function reducer (state = initialState, action){
     case ADD_STUDENT:
       return Object.assign({}, state, { students: [...state.students, action.student]});
 
-    case REMOVE_STUDENT:
-      return Object.assign({}, state, {students: state.students.filter(singleStudent => singleStudent.id !== action.studentId)});
+    case WRITE_NEW_CAMPUS_NAME:
+      return Object.assign({}, state, { newCampus:
+        {
+          name: action.campusName,
+          imageUrl: state.newCampus.imageUrl,
+          description: state.newCampus.description
+        }
+      });
+
+    case WRITE_NEW_CAMPUS_DESCRIPTION:
+      return Object.assign({}, state, { newCampus:
+        {
+          name: state.newCampus.name,
+          imageUrl: state.newCampus.imageUrl,
+          description: action.campusDescription
+        }
+    });
+
+    case WRITE_NEW_CAMPUS_IMAGEURL:
+    return Object.assign({}, state, { newCampus:
+      {
+        name: state.newCampus.name,
+        imageUrl: action.campusImage,
+        description: state.newCampus.description
+      }
+  });
+
+    case ADD_CAMPUS:
+      return Object.assign({}, state, { campuses: [...state.campuses, action.campus]});
 
     default:
       return state;

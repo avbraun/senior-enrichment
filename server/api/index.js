@@ -69,10 +69,10 @@ apiRouter.post('/students/new', (req, res, next) => {
 })
 
 // DELETES STUDENT
-apiRouter.delete('/students', (req, res, next) => {
-	console.log('REQ BODY XXXXXX: ', req.body)
+apiRouter.delete('/students/:studentId', (req, res, next) => {
+	let studentId = req.params.studentId;
 	Student.destroy({
-		where: { id: req.body }
+		where: { id: studentId }
 	})
 		.then(() => {
 			res.status(204).send();

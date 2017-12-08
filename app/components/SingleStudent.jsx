@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { deleteStudent } from '../store';
 
 const mapStateToProps = (state) => {
   return {
@@ -10,14 +11,19 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {}
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    handleDelete (event) {
+      event.preventDefault();
+      dispatch(deleteStudent(ownProps.match.params.studentId));
+      ownProps.history.push('/students');
+    }
+  }
 }
 
 export function SingleStudent(props) {
   let studentIdNum = parseInt(props.match.params.studentId, 10);
   let studentArr = props.students.filter(student => student.id === studentIdNum);
-  // console.log('studentobj: ', studentObj)
 
   return (
     <div>
@@ -30,6 +36,7 @@ export function SingleStudent(props) {
         </div>
       ))
     }
+    <button onClick={props.handleDelete}>Delete</button>
     </div>
   )
 }

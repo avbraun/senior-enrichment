@@ -6,17 +6,11 @@ import { deleteStudent } from '../store';
 const mapStateToProps = (state) => {
   return {
     students: state.students,
-    // studentToDelete: state.studentToDelete
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    handleDelete (event) {
-      console.log('MDTP - event.target.value: ', event.target.value)
-      dispatch(deleteStudent(event.target.value));
-    }
-  }
+  return {}
 }
 
 export function Students(props) {
@@ -31,7 +25,6 @@ export function Students(props) {
                 <li key={student.id}>
                 <NavLink to={`/students/${student.id}`}>{student.fullName}</NavLink>
                 </li>
-                <button value={student.id} onClick={props.handleDelete}>Delete</button>
                 </div>
             )
           )

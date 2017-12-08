@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, NavLink, Switch } from 'react-router-dom';
+import { Route, Link, Switch } from 'react-router-dom';
 import SingleCampus from './SingleCampus';
 import AllCampuses from './AllCampuses';
 import { connect } from 'react-redux';
@@ -18,6 +18,7 @@ export function Campuses(props) {
   return (
     <div>
       <h2>Check out our campuses...</h2>
+      <button><Link to="/campuses/new">Add Campus</Link></button>
       <AllCampuses />
       </div>
   )

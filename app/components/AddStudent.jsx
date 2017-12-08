@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Route, NavLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import store, { writeNewStudentEmail, writeNewStudentFirstName, writeNewStudentLastName, postNewStudent } from '../store';
+import { writeNewStudentEmail, writeNewStudentFirstName, writeNewStudentLastName, postNewStudent } from '../store';
 
 const mapStateToProps = (state) => {
   return {
@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     firstNameChange (event) {
       dispatch(writeNewStudentFirstName(event.target.value));
@@ -21,10 +21,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(writeNewStudentEmail(event.target.value));
     },
     handleSubmit (event) {
-      // dispatch(postNewStudent({ firstName: eventFirstName, lastname: eventLastName, email: eventEmail })); <----didn't work!
       dispatch(postNewStudent());
       event.preventDefault();
-      // history.push(`/students/${postedStudent.id}`);
+      // ownProps.history.push(`/students/${postedStudent.id}`);
       dispatch(writeNewStudentFirstName(''));
       dispatch(writeNewStudentLastName(''));
       dispatch(writeNewStudentEmail(''));
