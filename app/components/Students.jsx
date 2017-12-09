@@ -19,16 +19,16 @@ export function Students(props) {
       <h2>This is Students!</h2>
       <button><Link to="/students/new">Add Student</Link></button>
       <ul>
+      <div>
         {
           props.students.map(student => (
-              <div>
-                <li key={student.id}>
-                <NavLink to={`/students/${student.id}`}>{student.fullName}</NavLink>
-                </li>
-                </div>
+              <li key={student.id}>
+                <NavLink key={`link${student.id}`} to={`/students/${student.id}`}>{student.fullName}</NavLink>
+              </li>
             )
           )
         }
+        </div>
       </ul>
     </div>
   )

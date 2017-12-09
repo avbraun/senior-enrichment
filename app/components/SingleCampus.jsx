@@ -1,40 +1,56 @@
 import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { deleteCampus, fetchCampusStudents } from '../store';
 
 const mapStateToProps = (state) => {
   return {
-    students: state.students
+    students: state.students,
+    selectedCampus: state.selectedCampus
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {}
+const mapDispatchToProps = (dispatch, ownProps) => {
+  let campusId = ownProps.match.params.campusId;
+
+  return {
+    handleDelete(event) {
+      event.preventDefault();
+      dispatch(deleteCampus(ownProps.match.params.campusId));
+      ownProps.history.push('/campuses');
+    },
+    handleEdit(event){
+      event.preventDefault();
+      dispatch(fetchCampus(campusId));
+      ownProps.history.push(`/campuses/${campusId}/edit`);
+    }
+  }
 }
 
 export function SingleCampus(props) {
   let campusIdNum = parseInt(props.match.params.campusId, 10);
   return (
-    <table>
-    <thead>
-    <tr>
-    <th>Name</th>
-    <th>Email</th>
-    </tr>
-    </thead>
-    <tbody>
+    <div>
+    <h1>{props.selectedCampus.name}</h1>
+    <div>
+    <button onClick={props.handleDelete}>Delete</button>
+    <br />
+    <br />
+    <button onClick={props.handleEdit}>Edit</button>
+    </div>
+    <br />
+    <br />
     {
       props.students.filter(student => student.campusId === campusIdNum).map(filteredStudent => (
-        <NavLink to={`/students/${filteredStudent.id}`}>
-        <tr>
-        <td>{filteredStudent.fullName}</td>
-        <td>{filteredStudent.email}</td>
-        </tr>
+        <div>
+        <NavLink key={filteredStudent.id} to={`/students/${filteredStudent.id}`}>
+        <p key={`li${filteredStudent.id}`}>{filteredStudent.fullName}</p>
         </NavLink>
+        <p key={`anotherli${filteredStudent.id}`}>{filteredStudent.email}</p>
+        </div>
       ))
     }
-    </tbody>
-    </table>
+    </div>
   );
 }
 

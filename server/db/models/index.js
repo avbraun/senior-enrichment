@@ -4,7 +4,7 @@ const db = require('../index');
 const Campus = require('./Campus');
 const Student = require('./Student');
 
-Campus.hasMany(Student);
+Campus.hasMany(Student, { onDelete: 'cascade' });
 Student.belongsTo(Campus);
 
 // Require all the models

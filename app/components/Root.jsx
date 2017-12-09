@@ -5,6 +5,7 @@ import SingleCampus from './SingleCampus';
 import SingleStudent from './SingleStudent';
 import AddStudent from './AddStudent';
 import AddCampus from './AddCampus';
+import EditStudent from './EditStudent';
 import { Route, Switch, NavLink } from 'react-router-dom';
 import store, { fetchStudents, fetchCampuses } from '../store';
 
@@ -28,9 +29,9 @@ export default class Root extends Component {
           <Route exact path="/campuses" component={Campuses} />
           <Route exact path="/students" component={Students} />
           <Route exact path="/students/new" component={AddStudent} />
+          <Route exact path="/students/:studentId/edit" component={EditStudent} />
           <Route exact path="/students/:studentId" component={SingleStudent} />
         </Switch>
-
       </div>
     )
   }

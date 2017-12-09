@@ -19,6 +19,19 @@ apiRouter.get('/campuses', (req, res, next) => {
 		.catch(next);
 });
 
+// RETRIEVES ONE CAMPUS
+apiRouter.get('/campuses/:campusId', (req, res, next) => {
+	return Campus.findOne({
+		where: {
+			id: req.params.campusId
+		}
+	})
+		.then(campus => {
+			res.json(campus);
+		})
+		.catch(next);
+});
+
 // RETRIEVES ALL STUDENTS
 apiRouter.get('/students',  (req, res, next) => {
 	return Student.findAll()
@@ -29,7 +42,7 @@ apiRouter.get('/students',  (req, res, next) => {
 });
 
 // RETRIEVES STUDENTS FROM ONE CAMPUS
-apiRouter.get('/campuses/:campusId', (req, res, next) => {
+apiRouter.get('/campuses/:campusId/students', (req, res, next) => {
 	return Student.findAll({
 		where: { campusId: req.params.campusId }
 	})
@@ -81,7 +94,31 @@ apiRouter.delete('/students/:studentId', (req, res, next) => {
 })
 
 // DELETES CAMPUS
+apiRouter.delete('/campuses/:campusId', (req, res, next) => {
+	let campusId = req.params.campusId;
+	Campus.destroy({
+		where: { id: campusId }
+	})
+		.then(() => {
+			res.status(204).send();
+		})
+		.catch(next);
+})
 
+// UPDATES STUDENT
+apiRouter.put('/students/:studentId', (req, res, next) => {
+	let studentId = req.params.studentId;
+	Student.findOne({
+		where: { id: studentId }
+	})
+		.then(foundStudent => {
+			foundStudent.update(req.body);
+		})
+		.then(updatedStudent => {
+			res.json(updatedStudent);
+		})
+		.catch(next);
+});
 
 // You can put all routes in this file; HOWEVER, this file should almost be like a table of contents for the routers you create
 

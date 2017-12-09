@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, NavLink, Switch, Link } from 'react-router-dom';
 import SingleCampus from './SingleCampus';
 import { connect } from 'react-redux';
+import { fetchCampus } from '../store';
 
 const mapStateToProps = (state) => {
   return {
@@ -9,8 +10,16 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {}
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    testtest (event) {
+      console.log('hello!')
+    }
+    // selectCampus(campus, event){
+    //   console.log('campus: ', campus)
+    //   // dispatch(fetchCampus(ownProps.match.params.))
+    // }
+  }
 }
 
 export function AllCampuses(props) {
@@ -22,8 +31,8 @@ export function AllCampuses(props) {
           props.campuses.map(campus => {
             return (
               <div>
-                <li key={campus.id}>{campus.name}: {campus.description}</li>
-                <Link to={`/campuses/${campus.id}`}>
+                <li onClick={testtest} key={campus.id}>{campus.name}: {campus.description}</li>
+                <Link key={`link${campus.id}`} to={`/campuses/${campus.id}`}>
                   <img key={`image${campus.id}`} src={campus.imgUrl} />
                 </Link>
               </div>
