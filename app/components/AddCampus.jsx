@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Route, NavLink, Link } from 'react-router-dom';
+import React from 'react';
 import { connect } from 'react-redux';
 import { writeNewCampusName, writeNewCampusDescription, writeNewCampusImageUrl, postNewCampus } from '../store';
 
@@ -63,10 +62,3 @@ export function NewCampus(props) {
 const NewCampusContainer = connect(mapStateToProps, mapDispatchToProps)(NewCampus);
 
 export default NewCampusContainer;
-
-// turn the render portion into an exported function, which takes props
-// mapStateToProps, takes state
-// mapDispatchToProps, takes dispatch
-// create const container at the bottom, equals connect(mapStateToProps, mapDispatchToProps)(function-name);
-// export default that container
-// import connect from react-redux

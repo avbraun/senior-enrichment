@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Route, NavLink, Link } from 'react-router-dom';
+import React from 'react';
 import { connect } from 'react-redux';
 import { postStudentChanges, updateStudentFirstName, updateStudentLastName, updateStudentEmail, updateStudentCampusId } from '../store';
 
@@ -67,7 +66,7 @@ export function EditStudent(props) {
         <option value="Select a campus">Select a campus</option>
         {
           props.campuses.map(campus =>
-          <option value={campus.id}>{campus.name}</option>)
+          <option key={campus.id} value={campus.id}>{campus.name}</option>)
         }
       </select>
       </label>
@@ -82,10 +81,3 @@ export function EditStudent(props) {
 const EditStudentContainer = connect(mapStateToProps, mapDispatchToProps)(EditStudent);
 
 export default EditStudentContainer;
-
-// turn the render portion into an exported function, which takes props
-// mapStateToProps, takes state
-// mapDispatchToProps, takes dispatch
-// create const container at the bottom, equals connect(mapStateToProps, mapDispatchToProps)(function-name);
-// export default that container
-// import connect from react-redux

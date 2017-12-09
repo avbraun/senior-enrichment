@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Route, NavLink } from 'react-router-dom';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { deleteCampus, fetchCampusStudents } from '../store';
+import { deleteCampus } from '../store';
 
 const mapStateToProps = (state) => {
   return {
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     handleEdit(event){
       event.preventDefault();
-      dispatch(fetchCampus(campusId));
+      dispatch(fetchCampus(campusId)); // PROBLEM
       ownProps.history.push(`/campuses/${campusId}/edit`);
     }
   }

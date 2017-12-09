@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Route, NavLink, Link } from 'react-router-dom';
+import React from 'react';
 import { connect } from 'react-redux';
 import { writeNewStudentEmail, writeNewStudentFirstName, writeNewStudentLastName, writeNewStudentCampusId, postNewStudent } from '../store';
 
@@ -7,10 +6,10 @@ const mapStateToProps = (state) => {
   return {
     newStudent: state.newStudent,
     campuses: state.campuses
-  }
-}
+  };
+};
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     firstNameChange (event) {
       dispatch(writeNewStudentFirstName(event.target.value));
@@ -32,8 +31,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(writeNewStudentLastName(''));
       dispatch(writeNewStudentEmail(''));
     }
-  }
-}
+  };
+};
 
 export function NewStudent(props) {
   return (
@@ -64,7 +63,7 @@ export function NewStudent(props) {
         <option selected value="Select a campus">Select a campus</option>
         {
           props.campuses.map(campus =>
-          <option value={campus.id}>{campus.name}</option>)
+          <option key={campus.id} value={campus.id}>{campus.name}</option>)
         }
       </select>
       </label>
@@ -79,10 +78,3 @@ export function NewStudent(props) {
 const NewStudentContainer = connect(mapStateToProps, mapDispatchToProps)(NewStudent);
 
 export default NewStudentContainer;
-
-// turn the render portion into an exported function, which takes props
-// mapStateToProps, takes state
-// mapDispatchToProps, takes dispatch
-// create const container at the bottom, equals connect(mapStateToProps, mapDispatchToProps)(function-name);
-// export default that container
-// import connect from react-redux

@@ -1,16 +1,11 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Route, NavLink, Link } from 'react-router-dom';
+import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { deleteStudent } from '../store';
 
 const mapStateToProps = (state) => {
   return {
     students: state.students,
   }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {}
 }
 
 export function Students(props) {
@@ -34,13 +29,6 @@ export function Students(props) {
   )
 }
 
-const StudentsContainer = connect(mapStateToProps, mapDispatchToProps)(Students);
+const StudentsContainer = connect(mapStateToProps)(Students);
 
 export default StudentsContainer;
-
-// turn the render portion into an exported function, which takes props
-// mapStateToProps, takes state
-// mapDispatchToProps, takes dispatch
-// create const container at the bottom, equals connect(mapStateToProps, mapDispatchToProps)(function-name);
-// export default that container
-// import connect from react-redux

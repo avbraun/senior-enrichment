@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
-import SingleCampus from './SingleCampus';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import AllCampuses from './AllCampuses';
 import { connect } from 'react-redux';
 
@@ -8,10 +7,6 @@ const mapStateToProps = (state) => {
   return {
     campuses: state.campuses
   }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {}
 }
 
 export function Campuses(props) {
@@ -24,13 +19,6 @@ export function Campuses(props) {
   )
 }
 
-const CampusesContainer = connect(mapStateToProps, mapDispatchToProps)(Campuses);
+const CampusesContainer = connect(mapStateToProps)(Campuses);
 
 export default CampusesContainer;
-
-// turn the render portion into an exported function, which takes props
-// mapStateToProps, takes state
-// mapDispatchToProps, takes dispatch
-// create const container at the bottom, equals connect(mapStateToProps, mapDispatchToProps)(function-name);
-// export default that container
-// import connect from react-redux
