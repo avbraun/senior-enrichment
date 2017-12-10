@@ -1,6 +1,7 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { fetchStudent, fetchCampus, selectStudent } from '../store';
 
 const mapStateToProps = (state) => {
   return {
@@ -8,7 +9,19 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    selectStudentAndCampus (event, student) {
+      dispatch(selectStudent(student));
+      dispatch(fetchCampus(student.campusId))
+    }
+  }
+}
+
 export function Students(props) {
+
+  let { students, selectStudentAndCampus } = props;
+
   return (
     <div>
       <h2>This is Students!</h2>
@@ -16,12 +29,16 @@ export function Students(props) {
       <ul>
       <div>
         {
-          props.students.map(student => (
+          students.map(student => (
               <li key={student.id}>
-                <NavLink key={`link${student.id}`} to={`/students/${student.id}`}>{student.fullName}</NavLink>
+                <Link
+                  onClick={event => selectStudentAndCampus(event, student)}
+                  key={`link${student.id}`}
+                  to={`/students/${student.id}`}>
+                  {student.fullName}
+                </Link>
               </li>
-            )
-          )
+          ))
         }
         </div>
       </ul>
@@ -29,6 +46,6 @@ export function Students(props) {
   )
 }
 
-const StudentsContainer = connect(mapStateToProps)(Students);
+const StudentsContainer = connect(mapStateToProps, mapDispatchToProps)(Students);
 
 export default StudentsContainer;

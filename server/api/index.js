@@ -108,6 +108,7 @@ apiRouter.delete('/campuses/:campusId', (req, res, next) => {
 // UPDATES STUDENT
 apiRouter.put('/students/:studentId', (req, res, next) => {
 	let studentId = req.params.studentId;
+
 	Student.findOne({
 		where: { id: studentId }
 	})
@@ -116,6 +117,22 @@ apiRouter.put('/students/:studentId', (req, res, next) => {
 		})
 		.then(updatedStudent => {
 			res.json(updatedStudent);
+		})
+		.catch(next);
+});
+
+// UPDATES CAMPUS
+apiRouter.put('/campuses/:campusId', (req, res, next) => {
+	let campusId = req.params.campusId;
+
+	Campus.findOne({
+		where: { id: campusId }
+	})
+		.then(foundCampus => {
+			foundCampus.update(req.body);
+		})
+		.then(updatedCampus => {
+			res.json(updatedCampus);
 		})
 		.catch(next);
 });

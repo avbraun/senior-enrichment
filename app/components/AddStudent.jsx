@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     firstNameChange (event) {
       dispatch(writeNewStudentFirstName(event.target.value));
@@ -17,58 +17,74 @@ const mapDispatchToProps = (dispatch) => {
     lastNameChange (event) {
       dispatch(writeNewStudentLastName(event.target.value));
     },
-    handleEmailChange (event) {
+    emailChange (event) {
       dispatch(writeNewStudentEmail(event.target.value));
     },
-    handleCampusChange (event) {
+    campusChange (event) {
       dispatch(writeNewStudentCampusId(event.target.value));
     },
     handleSubmit (event) {
-      dispatch(postNewStudent());
       event.preventDefault();
-      // ownProps.history.push(`/students/${postedStudent.id}`);
+      dispatch(postNewStudent());
+      ownProps.history.push('/students');
       dispatch(writeNewStudentFirstName(''));
       dispatch(writeNewStudentLastName(''));
       dispatch(writeNewStudentEmail(''));
+      dispatch(writeNewStudentCampusId(''));
     }
   };
 };
 
 export function NewStudent(props) {
+
+  let { newStudent, campuses, firstNameChange, lastNameChange, emailChange, campusChange, handleSubmit } = props;
+
   return (
     <div>
       <h2>Add a student...</h2>
-      <form onSubmit={props.handleSubmit} >
+      <form onSubmit={handleSubmit} >
         <label>
           First Name:
-        <input onChange={props.firstNameChange} value={props.newStudent.firstName} type="text" name="firstName" />
+        <input
+            onChange={firstNameChange}
+            value={newStudent.firstName}
+            type="text"
+            name="firstName" />
         </label>
         <br />
         <br />
         <label>
           Last Name:
-      <input onChange={props.lastNameChange} value={props.newStudent.lastName} type="text" name="lastName" />
+        <input
+            onChange={lastNameChange}
+            value={newStudent.lastName}
+            type="text"
+            name="lastName" />
         </label>
         <br />
         <br />
         <label>
           Email:
-        <input onChange={props.handleEmailChange} value={props.newStudent.email} type="email" name="email" />
+        <input
+            onChange={emailChange}
+            value={newStudent.email}
+            type="email"
+            name="email" />
         </label>
         <br />
         <br />
         <label>
           Campus:
-        <select value={props.newStudent.campusId} onChange={props.handleCampusChange}>
-        <option selected value="Select a campus">Select a campus</option>
-        {
-          props.campuses.map(campus =>
-          <option key={campus.id} value={campus.id}>{campus.name}</option>)
-        }
-      </select>
-      </label>
-      <br />
-      <br />
+        <select value={newStudent.campusId} onChange={campusChange}>
+            <option value="Select a campus">Select a campus</option>
+            {
+              campuses.map(campus =>
+                <option key={campus.id} value={campus.id}>{campus.name}</option>)
+            }
+          </select>
+        </label>
+        <br />
+        <br />
         <input type="submit" value="Submit" />
       </form>
     </div>

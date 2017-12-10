@@ -1,56 +1,52 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { deleteStudent, fetchStudent } from '../store';
+import { deleteStudent } from '../store';
 
 const mapStateToProps = (state) => {
   return {
-    students: state.students,
-    campuses: state.campuses
+    selectedStudent: state.selectedStudent,
+    selectedCampus: state.selectedCampus
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  let studentId = ownProps.match.params.studentId;
 
   return {
-    handleDelete (event) {
-      event.preventDefault();
-      dispatch(deleteStudent(studentId));
+    handleDelete (event, selectedStudent) {
+      dispatch(deleteStudent(selectedStudent.id));
       ownProps.history.push('/students');
     },
-    handleEdit (event) {
-      event.preventDefault();
-      dispatch(fetchStudent(studentId));
-      ownProps.history.push(`/students/${studentId}/edit`);
+    handleEdit (event, selectedStudent) {
+      ownProps.history.push(`/students/${selectedStudent.id}/edit`);
     }
   }
 }
 
 export function SingleStudent(props) {
-  let studentIdNum = parseInt(props.match.params.studentId, 10);
-  let studentArr = props.students.filter(student => student.id === studentIdNum);
+
+  let { selectedStudent, selectedCampus, handleEdit, handleDelete } = props;
 
   return (
     <div>
-    {
-      studentArr.map(studentObj => (
         <div>
-        <h1>{studentObj.fullName}</h1>
-        <h3>Email: {studentObj.email}</h3>
-        <h3>Campus: <NavLink to={`/campuses/${studentObj.campusId}`}>{props.campuses.filter(campus => campus.id === studentObj.campusId).map(campusObj => campusObj.name)}</NavLink></h3>
+        <h1>{selectedStudent.firstName} {selectedStudent.lastName}</h1>
+        <h3>Email: {selectedStudent.email}</h3>
+        <h3>Campus:
+          <Link
+          to={`/campuses/${selectedCampus.id}`}>
+          {selectedCampus.name}
+        </Link>
+        </h3>
         </div>
-      ))
-    }
-    <button onClick={props.handleEdit}>Edit</button>
+    <button onClick={event => handleEdit(event, selectedStudent)}>Edit</button>
     <br />
     <br />
-    <button onClick={props.handleDelete}>Delete</button>
+    <button onClick={event => handleDelete(event, selectedStudent)}>Delete</button>
     </div>
   )
 }
 
-const SingleStudentContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleStudent));
+const SingleStudentContainer = connect(mapStateToProps, mapDispatchToProps)(SingleStudent);
 
 export default SingleStudentContainer;

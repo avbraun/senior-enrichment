@@ -7,52 +7,42 @@ import axios from 'axios';
 const initialState =  {
   students: [],
   campuses: [],
-  newStudent: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    campusId: ''
-  },
-  newCampus: {
-    name: '',
-    imageUrl: '',
-    description: ''
-  },
-  selectedStudent: {
-    firstName: '',
-    lastName: '',
-    email: '',
-    campusId: ''
-  },
-  selectedCampus: {
-    name: '',
-    imageUrl: '',
-    description: '',
-    campusStudents: []
-  }
+  newStudent: {},
+  newCampus: {},
+  selectedStudent: {},
+  selectedCampus: {}
 }
 
 // action types:
 const GET_STUDENTS = 'GET_STUDENTS';
+const ADD_STUDENT = 'ADD_STUDENT';
+const REMOVE_STUDENT = 'REMOVE_STUDENT';
+
 const GET_CAMPUSES = 'GET_CAMPUSES';
+const ADD_CAMPUS = 'ADD_CAMPUS';
+const REMOVE_CAMPUS = 'REMOVE_CAMPUS';
+
+const SELECT_STUDENT = 'SELECT_STUDENT';
+
+const SELECT_CAMPUS = 'SELECT_CAMPUS';
+
 const WRITE_NEW_STUDENT_FIRSTNAME = 'WRITE_NEW_STUDENT_FIRSTNAME';
 const WRITE_NEW_STUDENT_LASTNAME = 'WRITE_NEW_STUDENT_LASTNAME';
 const WRITE_NEW_STUDENT_EMAIL = 'WRITE_NEW_STUDENT_EMAIL';
 const WRITE_NEW_STUDENT_CAMPUSID = 'WRITE_NEW_STUDENT_CAMPUS';
-const ADD_STUDENT = 'ADD_STUDENT';
-const REMOVE_STUDENT = 'REMOVE_STUDENT';
-const SELECT_STUDENT = 'SELECT_STUDENT';
+
 const WRITE_NEW_CAMPUS_NAME = 'WRITE_NEW_CAMPUS_NAME';
 const WRITE_NEW_CAMPUS_DESCRIPTION = 'WRITE_NEW_CAMPUS_DESCRIPTION';
 const WRITE_NEW_CAMPUS_IMAGEURL = 'WRITE_NEW_CAMPUS_IMAGEURL';
-const ADD_CAMPUS = 'ADD_CAMPUS';
-const REMOVE_CAMPUS = 'REMOVE_CAMPUS';
+
 const UPDATE_STUDENT_FIRST_NAME = 'UPDATE_STUDENT_FIRST_NAME';
 const UPDATE_STUDENT_LAST_NAME = 'UPDATE_STUDENT_LAST_NAME';
 const UPDATE_STUDENT_EMAIL = 'UPDATE_STUDENT_EMAIL';
 const UPDATE_STUDENT_CAMPUSID = 'UPDATE_STUDENT_CAMPUSID';
-const SELECT_CAMPUS = 'SELECT_CAMPUS';
 
+const UPDATE_CAMPUS_NAME = 'UPDATE_CAMPUS_NAME';
+const UPDATE_CAMPUS_DESCRIPTION = 'UPDATE_CAMPUS_DESCRIPTION';
+const UPDATE_CAMPUS_IMAGEURL = 'UPDATE_CAMPUS_IMAGEURL';
 
 // action creators:
 export function getStudents (students) {
@@ -131,6 +121,18 @@ export function selectCampus (campus) {
   return { type: SELECT_CAMPUS, campus }
 }
 
+export function updateCampusName (campusName) {
+  return { type: UPDATE_CAMPUS_NAME, campusName };
+}
+
+export function updateCampusDescription (campusDescription) {
+  return { type: UPDATE_CAMPUS_DESCRIPTION, campusDescription };
+}
+
+export function updateCampusImageUrl (campusImageUrl) {
+  return { type: UPDATE_CAMPUS_IMAGEURL, campusImageUrl };
+}
+
 // thunk creators:
 
 export function fetchStudents () {
@@ -150,12 +152,15 @@ export function fetchStudent (studentId) {
     return axios.get(`/api/students/${studentId}`)
       .then(res => res.data)
       .then(student => {
-        dispatch(selectStudent({
-          firstName: student.firstName,
-          lastName: student.lastName,
-          email: student.email,
-          campusId: student.campusId
-        }));
+        dispatch(selectStudent(
+        //   {
+        //   firstName: student.firstName,
+        //   lastName: student.lastName,
+        //   email: student.email,
+        //   campusId: student.campusId
+        // }
+        student
+      ));
       });
   };
 }
@@ -166,11 +171,14 @@ export function fetchCampus (campusId) {
     return axios.get(`/api/campuses/${campusId}`)
       .then(res => res.data)
       .then(campus => {
-        dispatch(selectCampus({
-          name: campus.name,
-          description: campus.description,
-          imageUrl: campus.imageUrl
-        }));
+        dispatch(selectCampus(
+        //   {
+        //   name: campus.name,
+        //   description: campus.description,
+        //   imageUrl: campus.imageUrl
+        // }
+        campus
+        ));
       });
   };
 }
@@ -242,6 +250,18 @@ export function postStudentChanges (studentId) {
   }
 }
 
+export function postCampusChanges (campus) {
+
+    return function thunk (dispatch) {
+      // let updatedStudent = getState().selectedStudent;
+      console.log('campus: ', campus)
+      return axios.put(`/api/campuses/${campus.id}`, campus)
+        .then(() => {
+          dispatch(fetchCampuses());
+        })
+    }
+  }
+
 // reducer:
 
 export function reducer (state = initialState, action){
@@ -271,12 +291,7 @@ export function reducer (state = initialState, action){
     return Object.assign({}, state, { selectedStudent: action.student });
 
     case SELECT_CAMPUS:
-    return Object.assign({}, state, { selectedCampus: {
-      name: action.campus.name,
-      imageUrl: action.campus.imageUrl,
-      description: action.campus.description,
-      students: state.selectedCampus.students
-    }});
+    return Object.assign({}, state, { selectedCampus: action.campus});
 
     case WRITE_NEW_CAMPUS_NAME:
       return Object.assign({}, state, { newCampus:
@@ -347,6 +362,37 @@ export function reducer (state = initialState, action){
       campusId: action.studentCampusId
     }
 });
+
+  case UPDATE_CAMPUS_NAME:
+    return Object.assign({}, state, { selectedCampus:
+      {
+        id: state.selectedCampus.id,
+        name: action.campusName,
+        description: state.selectedCampus.description,
+        imageUrl: state.selectedCampus.imageUrl
+      }
+  })
+
+  case UPDATE_CAMPUS_DESCRIPTION:
+  return Object.assign({}, state, { selectedCampus:
+    {
+      id: state.selectedCampus.id,
+      name: state.selectedCampus.name,
+      description: action.campusDescription,
+      imageUrl: state.selectedCampus.imageUrl
+    }
+})
+
+  case UPDATE_CAMPUS_IMAGEURL:
+    return Object.assign({}, state, { selectedCampus:
+      {
+        id: state.selectedCampus.id,
+        name: state.selectedCampus.name,
+        description: state.selectedCampus.description,
+        imageUrl: actions.campusImageUrl
+      }
+  })
+
     default:
       return state;
   }

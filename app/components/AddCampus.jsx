@@ -20,9 +20,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(writeNewCampusImageUrl(event.target.value));
     },
     handleSubmit (event) {
-      dispatch(postNewCampus());
       event.preventDefault();
-      // ownProps.history.push(`/students/${postedStudent.id}`);
+      dispatch(postNewCampus());
+      ownProps.history.push('/campuses');
       dispatch(writeNewCampusName(''));
       dispatch(writeNewCampusDescription(''));
       dispatch(writeNewCampusImageUrl(''));
@@ -31,25 +31,40 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 export function NewCampus(props) {
+
+  const { newCampus, nameChange, descriptionChange, imageUrlChange, handleSubmit } = props;
+
   return (
     <div>
       <h2>Add a campus...</h2>
-      <form onSubmit={event => props.handleSubmit(event, props.newCampus.name, props.newCampus.description, props.newCampus.imageUrl)} >
+      <form onSubmit={handleSubmit} >
         <label>
           Name:
-        <input onChange={props.nameChange} value={props.newCampus.name} type="text" name="name" />
+        <input
+            onChange={nameChange}
+            value={newCampus.name}
+            type="text"
+            name="name" />
         </label>
         <br />
         <br />
         <label>
-        Description (optional):
-      <input onChange={props.descriptionChange} value={props.newCampus.description} type="text" name="description" />
-      </label>
-      <br />
-      <br />
+          Description (optional):
+        <input
+          onChange={descriptionChange}
+          value={newCampus.description}
+          type="text"
+          name="description" />
+        </label>
+        <br />
+        <br />
         <label>
-        Image URL (optional):
-        <input onChange={props.imageUrlChange} value={props.newCampus.imageUrl} type="text" name="imageUrl" />
+          Image URL (optional):
+        <input
+          onChange={imageUrlChange}
+          value={newCampus.imageUrl}
+          type="text"
+          name="imageUrl" />
         </label>
         <br />
         <br />

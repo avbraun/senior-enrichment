@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { deleteCampus } from '../store';
+import { deleteCampus, selectCampus, selectStudent } from '../store';
 
 const mapStateToProps = (state) => {
   return {
@@ -11,41 +11,51 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  let campusId = ownProps.match.params.campusId;
+  // let campusId = ownProps.match.params.campusId;
 
   return {
-    handleDelete(event) {
-      event.preventDefault();
-      dispatch(deleteCampus(ownProps.match.params.campusId));
+    handleDelete(event, selectedCampus) {
+      dispatch(deleteCampus(selectedCampus.id));
       ownProps.history.push('/campuses');
     },
-    handleEdit(event){
+    handleEdit(event, selectedCampus){
       event.preventDefault();
-      dispatch(fetchCampus(campusId)); // PROBLEM
-      ownProps.history.push(`/campuses/${campusId}/edit`);
+      ownProps.history.push(`/campuses/${selectedCampus.id}/edit`);
+    },
+    selectStudent(event, student){
+      event.preventDefault();
+      dispatch(selectStudent(student));
+      ownProps.history.push(`/students/${student.id}`)
     }
   }
 }
 
 export function SingleCampus(props) {
-  let campusIdNum = parseInt(props.match.params.campusId, 10);
+
+  let { students, selectedCampus, handleDelete, handleEdit } = props;
+
   return (
     <div>
-    <h1>{props.selectedCampus.name}</h1>
+    <h1>{selectedCampus.name}</h1>
+    <p>{selectedCampus.description}</p>
     <div>
-    <button onClick={props.handleDelete}>Delete</button>
+    <button onClick={event => handleDelete(event, selectedCampus)}>Delete</button>
     <br />
     <br />
-    <button onClick={props.handleEdit}>Edit</button>
+    <button onClick={event => handleEdit(event, selectCampus)}>Edit</button>
     </div>
     <br />
     <br />
+    <h2>Students:</h2>
     {
-      props.students.filter(student => student.campusId === campusIdNum).map(filteredStudent => (
+      students.filter(student => student.campusId === selectedCampus.id).map(filteredStudent => (
         <div>
-        <NavLink key={filteredStudent.id} to={`/students/${filteredStudent.id}`}>
-        <p key={`li${filteredStudent.id}`}>{filteredStudent.fullName}</p>
-        </NavLink>
+        <Link
+          onClick={event => selectStudent(event, filteredStudent)}
+          key={filteredStudent.id}
+          to={`/students/${filteredStudent.id}`}>
+        {filteredStudent.fullName}
+        </Link>
         <p key={`anotherli${filteredStudent.id}`}>{filteredStudent.email}</p>
         </div>
       ))
