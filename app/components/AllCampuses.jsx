@@ -23,7 +23,6 @@ export function AllCampuses(props) {
 
   return (
     <div>
-      <h2>(Alyssa, these are All Campuses!)</h2>
       <ul>
         {
           campuses.map(campus => {

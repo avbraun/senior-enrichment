@@ -6,7 +6,7 @@ import { deleteCampus, selectCampus, selectStudent } from '../store';
 const mapStateToProps = (state) => {
   return {
     students: state.students,
-    selectedCampus: state.selectedCampus
+    selectedCampus: state.selectedCampus,
   }
 }
 
@@ -22,9 +22,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       event.preventDefault();
       ownProps.history.push(`/campuses/${selectedCampus.id}/edit`);
     },
-    selectStudent(event, student){
+    selectThisStudent(event, student){
       event.preventDefault();
-      dispatch(selectStudent(student));
+      dispatch(selectStudent(student))
       ownProps.history.push(`/students/${student.id}`)
     }
   }
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 export function SingleCampus(props) {
 
-  let { students, selectedCampus, handleDelete, handleEdit } = props;
+  let { students, selectThisStudent, selectedCampus, handleDelete, handleEdit } = props;
 
   return (
     <div>
@@ -40,7 +40,6 @@ export function SingleCampus(props) {
     <p>{selectedCampus.description}</p>
     <div>
     <button onClick={event => handleDelete(event, selectedCampus)}>Delete</button>
-    <br />
     <br />
     <button onClick={event => handleEdit(event, selectCampus)}>Edit</button>
     </div>
@@ -51,7 +50,7 @@ export function SingleCampus(props) {
       students.filter(student => student.campusId === selectedCampus.id).map(filteredStudent => (
         <div>
         <Link
-          onClick={event => selectStudent(event, filteredStudent)}
+          onClick={event => selectThisStudent(event, filteredStudent)}
           key={filteredStudent.id}
           to={`/students/${filteredStudent.id}`}>
         {filteredStudent.fullName}

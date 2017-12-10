@@ -21,19 +21,20 @@ export default class Root extends Component {
   render() {
     return (
       <div>
-        <h1>This is the Main / Home!</h1>
-        <Link to="/campuses">Campuses</Link>
+        <h1>The Margaret Hamilton Interplanetary Academy of JavaScript</h1>
+        <Link to="/campuses">Explore Campuses</Link>
         <br />
-        <Link to="/students">Students</Link>
+        <Link to="/students">View Students</Link>
         <Switch>
           <Route exact path="/campuses/new" component={AddCampus} />
-          <Route exact path="/campuses/:capusId/edit" component={EditCampus} />
+          <Route exact path="/campuses/:campusId/edit" component={EditCampus} />
           <Route exact path ="/campuses/:campusId" component={SingleCampus} />
           <Route exact path="/campuses" component={Campuses} />
-          <Route exact path="/students" component={Students} />
-          <Route exact path="/students/new" component={AddStudent} />
           <Route exact path="/students/:studentId/edit" component={EditStudent} />
           <Route exact path="/students/:studentId" component={SingleStudent} />
+          <Route exact path="/students" component={Students} />
+          <Route exact path="/students/new" component={AddStudent} />
+
         </Switch>
       </div>
     )

@@ -39,7 +39,7 @@ export function EditStudent(props) {
 
   return (
     <div>
-      <h2>Edit this student...</h2>
+      <h2>Edit student:</h2>
       <form onSubmit={handleSubmit} >
         <label>
           First Name:

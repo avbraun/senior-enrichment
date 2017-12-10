@@ -36,7 +36,7 @@ export function EditCampus(props) {
 
   return (
     <div>
-      <h2>Edit this campus...</h2>
+      <h2>Edit campus:</h2>
       <form onSubmit={event => handleSubmit(event, selectedCampus)} >
         <label>
           Name:

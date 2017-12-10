@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 export function Campuses(props) {
   return (
     <div>
-      <h2>Check out our campuses...</h2>
+      <h2>Campuses</h2>
       <button><Link to="/campuses/new">Add Campus</Link></button>
       <AllCampuses />
       </div>

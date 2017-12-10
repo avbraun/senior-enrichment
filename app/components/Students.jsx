@@ -24,7 +24,7 @@ export function Students(props) {
 
   return (
     <div>
-      <h2>This is Students!</h2>
+      <h2>Students:</h2>
       <button><Link to="/students/new">Add Student</Link></button>
       <ul>
       <div>
