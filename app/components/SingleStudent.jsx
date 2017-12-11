@@ -16,6 +16,7 @@ export function SingleStudent(props) {
         <h3>Campus:</h3> <Link
           to={`/campuses/${selectedCampus.id}`}>
           {selectedCampus.name}</Link>
+        <h3>GPA:</h3> {selectedStudent.gpa}
       </div>
       <br />
       <br />
