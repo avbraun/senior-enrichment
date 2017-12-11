@@ -10,8 +10,10 @@ export function AllCampuses(props) {
 
   return (
     <div>
-    <h2>Campuses:</h2>
+    <h2>Campuses</h2>
+    <img className="header-image" src="https://ucollege.wustl.edu/files/ucollege/styles/spotlight_mobile/public/UCollege_TuitionHeader.jpg?itok=dCtEA2te" />
     <button onClick={addCampus}>Add Campus</button>
+    <div id="campuses">
         {
           campuses.map(campus => {
             return (
@@ -34,6 +36,7 @@ export function AllCampuses(props) {
             )
           })
         }
+    </div>
     </div>
   )
 }

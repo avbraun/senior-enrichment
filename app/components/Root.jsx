@@ -25,9 +25,11 @@ export default class Root extends Component {
     return (
       <div>
         <h1>The Margaret Hamilton Interplanetary Academy of JavaScript</h1>
+        <div id="navigation">
         <Link to="/campuses">Explore Campuses</Link>
         <br />
         <Link to="/students">View Students</Link>
+        </div>
         <Switch>
           <Route exact path="/campuses/new" component={AddCampus} />
           <Route exact path="/campuses/:campusId/edit" component={EditCampus} />

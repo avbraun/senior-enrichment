@@ -24,7 +24,9 @@ export function Students(props) {
 
   return (
     <div>
-      <h2>Students:</h2>
+      <h2>Students</h2>
+      <img className="header-image" src="http://www.lonestar.edu/departments/webservices/studentsOnLawn.jpg" />
+      <br />
       <button><Link to="/students/new">Add Student</Link></button>
       <ul>
       <div>

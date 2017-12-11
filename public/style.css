@@ -1,0 +1,21 @@
+h1, h2, h3 {
+  font-family: 'Spectral SC', serif;
+  color: rgb(39, 62, 126);
+}
+
+h1, #navigation {
+  text-align: center;
+}
+
+.campus-description {
+  width: 200px;
+}
+
+body {
+  padding: 100px;
+}
+
+.header-image {
+  width: 100%;
+}
+
