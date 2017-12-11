@@ -2,33 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { writeNewCampusName, writeNewCampusDescription, writeNewCampusImageUrl, postNewCampus } from '../store';
 
-const mapStateToProps = (state) => {
-  return {
-    newCampus: state.newCampus
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    nameChange (event) {
-      dispatch(writeNewCampusName(event.target.value));
-    },
-    descriptionChange (event) {
-      dispatch(writeNewCampusDescription(event.target.value));
-    },
-    imageUrlChange (event) {
-      dispatch(writeNewCampusImageUrl(event.target.value));
-    },
-    handleSubmit (event) {
-      event.preventDefault();
-      dispatch(postNewCampus());
-      ownProps.history.push('/campuses');
-      dispatch(writeNewCampusName(''));
-      dispatch(writeNewCampusDescription(''));
-      dispatch(writeNewCampusImageUrl(''));
-    }
-  }
-}
 
 export function NewCampus(props) {
 
@@ -36,7 +9,7 @@ export function NewCampus(props) {
 
   return (
     <div>
-      <h2>Add a campus...</h2>
+      <h2>Add a campus:</h2>
       <form onSubmit={handleSubmit} >
         <label>
           Name:
@@ -74,6 +47,33 @@ export function NewCampus(props) {
   )
 }
 
+const mapStateToProps = (state) => {
+  return {
+    newCampus: state.newCampus
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    nameChange (event) {
+      dispatch(writeNewCampusName(event.target.value));
+    },
+    descriptionChange (event) {
+      dispatch(writeNewCampusDescription(event.target.value));
+    },
+    imageUrlChange (event) {
+      dispatch(writeNewCampusImageUrl(event.target.value));
+    },
+    handleSubmit (event) {
+      event.preventDefault();
+      dispatch(postNewCampus());
+      ownProps.history.push('/campuses');
+      dispatch(writeNewCampusName(''));
+      dispatch(writeNewCampusDescription(''));
+      dispatch(writeNewCampusImageUrl(''));
+    }
+  }
+}
 const NewCampusContainer = connect(mapStateToProps, mapDispatchToProps)(NewCampus);
 
 export default NewCampusContainer;

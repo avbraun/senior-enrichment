@@ -152,15 +152,7 @@ export function fetchStudent (studentId) {
     return axios.get(`/api/students/${studentId}`)
       .then(res => res.data)
       .then(student => {
-        dispatch(selectStudent(
-        //   {
-        //   firstName: student.firstName,
-        //   lastName: student.lastName,
-        //   email: student.email,
-        //   campusId: student.campusId
-        // }
-        student
-      ));
+        dispatch(selectStudent(student));
       });
   };
 }
@@ -171,14 +163,7 @@ export function fetchCampus (campusId) {
     return axios.get(`/api/campuses/${campusId}`)
       .then(res => res.data)
       .then(campus => {
-        dispatch(selectCampus(
-        //   {
-        //   name: campus.name,
-        //   description: campus.description,
-        //   imageUrl: campus.imageUrl
-        // }
-        campus
-        ));
+        dispatch(selectCampus(campus));
       });
   };
 }

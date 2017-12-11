@@ -2,38 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { writeNewStudentEmail, writeNewStudentFirstName, writeNewStudentLastName, writeNewStudentCampusId, postNewStudent } from '../store';
 
-const mapStateToProps = (state) => {
-  return {
-    newStudent: state.newStudent,
-    campuses: state.campuses
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    firstNameChange (event) {
-      dispatch(writeNewStudentFirstName(event.target.value));
-    },
-    lastNameChange (event) {
-      dispatch(writeNewStudentLastName(event.target.value));
-    },
-    emailChange (event) {
-      dispatch(writeNewStudentEmail(event.target.value));
-    },
-    campusChange (event) {
-      dispatch(writeNewStudentCampusId(event.target.value));
-    },
-    handleSubmit (event) {
-      event.preventDefault();
-      dispatch(postNewStudent());
-      ownProps.history.push('/students');
-      dispatch(writeNewStudentFirstName(''));
-      dispatch(writeNewStudentLastName(''));
-      dispatch(writeNewStudentEmail(''));
-      dispatch(writeNewStudentCampusId(''));
-    }
-  };
-};
 
 export function NewStudent(props) {
 
@@ -41,7 +9,7 @@ export function NewStudent(props) {
 
   return (
     <div>
-      <h2>Add a student...</h2>
+      <h2>Add a student:</h2>
       <form onSubmit={handleSubmit} >
         <label>
           First Name:
@@ -90,6 +58,39 @@ export function NewStudent(props) {
     </div>
   )
 }
+
+const mapStateToProps = (state) => {
+  return {
+    newStudent: state.newStudent,
+    campuses: state.campuses
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    firstNameChange (event) {
+      dispatch(writeNewStudentFirstName(event.target.value));
+    },
+    lastNameChange (event) {
+      dispatch(writeNewStudentLastName(event.target.value));
+    },
+    emailChange (event) {
+      dispatch(writeNewStudentEmail(event.target.value));
+    },
+    campusChange (event) {
+      dispatch(writeNewStudentCampusId(event.target.value));
+    },
+    handleSubmit (event) {
+      event.preventDefault();
+      dispatch(postNewStudent());
+      ownProps.history.push('/students');
+      dispatch(writeNewStudentFirstName(''));
+      dispatch(writeNewStudentLastName(''));
+      dispatch(writeNewStudentEmail(''));
+      dispatch(writeNewStudentCampusId(''));
+    }
+  };
+};
 
 const NewStudentContainer = connect(mapStateToProps, mapDispatchToProps)(NewStudent);
 

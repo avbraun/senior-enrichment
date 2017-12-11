@@ -1,37 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { postStudentChanges, updateStudentFirstName, updateStudentLastName, updateStudentEmail, updateStudentCampusId } from '../store';
+import { postStudentChanges, updateStudentFirstName, updateStudentLastName, updateStudentEmail, updateStudentCampusId, selectCampus, fetchCampus } from '../store';
 
-const mapStateToProps = (state) => {
-  return {
-    selectedStudent: state.selectedStudent,
-    campuses: state.campuses
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    firstNameChange (event) {
-      dispatch(updateStudentFirstName(event.target.value));
-    },
-    lastNameChange (event) {
-      dispatch(updateStudentLastName(event.target.value));
-
-    },
-    emailChange (event) {
-      dispatch(updateStudentEmail(event.target.value));
-    },
-    campusChange (event) {
-      dispatch(updateStudentCampusId(event.target.value));
-    },
-    handleSubmit (event) {
-      event.preventDefault();
-      let studentId = ownProps.match.params.studentId;
-      dispatch(postStudentChanges(studentId));
-      ownProps.history.push(`/students/${studentId}`);
-    }
-  }
-}
 
 export function EditStudent(props) {
 
@@ -40,7 +10,7 @@ export function EditStudent(props) {
   return (
     <div>
       <h2>Edit student:</h2>
-      <form onSubmit={handleSubmit} >
+      <form onSubmit={event => handleSubmit(event, selectedStudent)} >
         <label>
           First Name:
         <input
@@ -87,6 +57,39 @@ export function EditStudent(props) {
       </form>
     </div>
   )
+}
+
+const mapStateToProps = (state) => {
+  return {
+    selectedStudent: state.selectedStudent,
+    campuses: state.campuses
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    firstNameChange (event) {
+      dispatch(updateStudentFirstName(event.target.value));
+    },
+    lastNameChange (event) {
+      dispatch(updateStudentLastName(event.target.value));
+
+    },
+    emailChange (event) {
+      dispatch(updateStudentEmail(event.target.value));
+    },
+    campusChange (event) {
+      dispatch(updateStudentCampusId(event.target.value));
+      dispatch(fetchCampus(event.target.value));
+    },
+    handleSubmit (event, student) {
+      let studentId = ownProps.match.params.studentId;
+      event.preventDefault();
+      dispatch(postStudentChanges(studentId))
+      ownProps.history.push(`/students/${studentId}`)
+      ;
+    }
+  }
 }
 
 const EditStudentContainer = connect(mapStateToProps, mapDispatchToProps)(EditStudent);

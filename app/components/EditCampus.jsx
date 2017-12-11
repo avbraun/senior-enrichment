@@ -2,33 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { updateCampusName, updateCampusDescription, updateCampusImageUrl, postCampusChanges } from '../store';
 
-const mapStateToProps = (state) => {
-  return {
-    selectedCampus: state.selectedCampus
-    // students: state.students
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    nameChange (event) {
-      dispatch(updateCampusName(event.target.value));
-    },
-    descriptionChange (event) {
-      dispatch(updateCampusDescription(event.target.value));
-    },
-    imageUrlChange (event) {
-      dispatch(updateCampusImageUrl(event.target.value));
-    },
-    handleSubmit (event, selectedCampus) {
-      event.preventDefault();
-      // let studentId = ownProps.match.params.studentId;
-      console.log('selectedcampus: ', selectedCampus)
-      dispatch(postCampusChanges(selectedCampus));
-      ownProps.history.push(`/campuses/${selectedCampus.id}`);
-    }
-  }
-}
 
 export function EditCampus(props) {
 
@@ -71,8 +44,33 @@ export function EditCampus(props) {
         <input type="submit" value="Submit" />
       </form>
     </div>
-  )
+  );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    selectedCampus: state.selectedCampus
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    nameChange (event) {
+      dispatch(updateCampusName(event.target.value));
+    },
+    descriptionChange (event) {
+      dispatch(updateCampusDescription(event.target.value));
+    },
+    imageUrlChange (event) {
+      dispatch(updateCampusImageUrl(event.target.value));
+    },
+    handleSubmit (event, selectedCampus) {
+      event.preventDefault();
+      dispatch(postCampusChanges(selectedCampus));
+      ownProps.history.push(`/campuses/${selectedCampus.id}`);
+    }
+  };
+};
 
 const EditCampusContainer = connect(mapStateToProps, mapDispatchToProps)(EditCampus);
 
