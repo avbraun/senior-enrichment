@@ -1,8 +1,9 @@
 import { createStore, applyMiddleware } from 'redux';
-// import rootReducer from './reducers';
-import loggingMiddleware from 'redux-logger'; // https://github.com/evgenyrodionov/redux-logger
-import thunkMiddleware from 'redux-thunk'; // https://github.com/gaearon/redux-thunk
+import loggingMiddleware from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 import axios from 'axios';
+
+// Apologies for the INCREDIBLY bulky store... My plan was to refactor it into separate reducers later on, but I ran out of time!
 
 const initialState =  {
   students: [],
@@ -17,13 +18,11 @@ const initialState =  {
 const GET_STUDENTS = 'GET_STUDENTS';
 const ADD_STUDENT = 'ADD_STUDENT';
 const REMOVE_STUDENT = 'REMOVE_STUDENT';
+const SELECT_STUDENT = 'SELECT_STUDENT';
 
 const GET_CAMPUSES = 'GET_CAMPUSES';
 const ADD_CAMPUS = 'ADD_CAMPUS';
 const REMOVE_CAMPUS = 'REMOVE_CAMPUS';
-
-const SELECT_STUDENT = 'SELECT_STUDENT';
-
 const SELECT_CAMPUS = 'SELECT_CAMPUS';
 
 const WRITE_NEW_STUDENT_FIRSTNAME = 'WRITE_NEW_STUDENT_FIRSTNAME';
@@ -250,6 +249,7 @@ export function postCampusChanges (campus) {
 // reducer:
 
 export function reducer (state = initialState, action){
+
   switch (action.type) {
     case GET_STUDENTS:
       return Object.assign({}, state, { students: action.students });
